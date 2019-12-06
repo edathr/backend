@@ -1,0 +1,24 @@
+version: "2.1"
+services:
+  aoo-backend:
+    build:
+      context: ./
+    image: aoo-backend
+    container_name: aoo-backend
+    environment:
+      - FLASK_CONFIG=production
+      - SQLALCHEMY_TRACK_MODIFICATIONS=FALSE
+      - FLASK_APP=run.py
+
+    restart: always
+    ports:
+      - 5000:5000
+
+  aoogebra-frontend:
+    image: tayts/aoogebra-frontend-dev:latest
+    restart: on-failure
+    container_name: aoogebra-frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - aoo-backend

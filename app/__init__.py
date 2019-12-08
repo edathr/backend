@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_login import LoginManager
 from flask_restplus import Api, reqparse
 from flask_pymongo import PyMongo
 from .serialization_helper import JSONEncoder
@@ -20,7 +19,6 @@ mongo = PyMongo()
 from .models import User, RevokedTokenModel, OldReview, LiveReview
 
 # from app import models
-login_manager = LoginManager()
 jwt = JWTManager()
 
 def create_app(config_name):

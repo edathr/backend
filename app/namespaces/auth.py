@@ -17,9 +17,8 @@ login_credentials = copy.deepcopy(register_credentials)
 register_credentials.add_argument('email', default="test@example.com", help='Email field cannot be blank',
                                   required=True)
 
-# from ..models import User, RevokedTokenModel
 
-from ..models import User, RevokedTokenModel
+from ..models import User, RevokedTokenModel, OldReview
 
 @api.route('/register')
 class UserRegistration(Resource):
@@ -28,6 +27,14 @@ class UserRegistration(Resource):
     def post(self):
 
         data = register_credentials.parse_args()
+
+        # TODO: fix this part
+        # Do not allow username conflict with historical reviews database
+        # if OldReview.user_exists(data["username"]):
+        #     return {"data":
+        #                 {'message': f"Username exists inside our historical reviews database. We do not allow a collision. I am sorry."}
+        #             }, 403
+
         new_user = User(
 
             email=data['email'],

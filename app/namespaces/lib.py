@@ -6,11 +6,21 @@ def get_average_rating(asin):
 
     old_sum, old_count = OldReview.get_sum_count_rating(asin)
     new_sum, new_count = LiveReview.get_sum_count_rating(asin)
+
+    if old_count + new_count == 0:
+        return 0
+
     return round((old_sum + new_sum) / (old_count + new_count), 1)
+
+# TODO: code this shit
 
 
 
 def sanitize(e):
+
+    if not e.get("author", None):
+        e["author"] = "Author not found"
+
     if not e.get("title", None):
         e["title"] = "Title not found"
 
@@ -21,6 +31,7 @@ def sanitize(e):
         e["genres"] = ["Genres data does not exist"]
 
     e["avg_rating"] = get_average_rating(e["asin"])
+
 
     return e
 

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_login import LoginManager
 from flask_restplus import Api, reqparse
 from flask_pymongo import PyMongo
 from .serialization_helper import JSONEncoder
@@ -19,6 +20,7 @@ mongo = PyMongo()
 from .models import User, RevokedTokenModel, OldReview, LiveReview
 
 # from app import models
+login_manager = LoginManager()
 jwt = JWTManager()
 
 def create_app(config_name):
@@ -40,8 +42,7 @@ def create_app(config_name):
 
     logging.basicConfig(filename='demo.log', level=logging.DEBUG)
     # DATABASE CONFIG
-    print(app.config["MONGO_URI"])
-    print(app.config["SQLALCHEMY_DATABASE_URI"])
+
     mongo.init_app(app)
     app.json_encoder = JSONEncoder
     books = mongo.db.kindle_metadata2
@@ -97,6 +98,8 @@ def create_app(config_name):
     from .namespaces.book_genre import api as book_genre_api
     from .namespaces.book_add import api as book_add_api
     from .namespaces.log_retrievals import api as log_retrieval_api
+    from .namespaces.book_favourite import api as book_fav_api
+    from .namespaces.user import api as user_page_api
 
     api.add_namespace(books_api)
     api.add_namespace(auth_api)
@@ -104,7 +107,9 @@ def create_app(config_name):
     api.add_namespace(book_review_api)
     api.add_namespace(book_genre_api)
     api.add_namespace(book_add_api)
+    api.add_namespace(book_fav_api)
     api.add_namespace(log_retrieval_api)
+    api.add_namespace(user_page_api)
 
     return app
 

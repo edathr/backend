@@ -1,5 +1,6 @@
 import os
 
+
 class Config(object):
     """
     Common configurations
@@ -33,8 +34,8 @@ class ProductionConfig(Config):
     """
 
     DEBUG = True
-    MONGO_URI = "mongodb://aoo-user:aoopass123@13.229.209.52:27017/50043db?authSource=admin"
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://aoo-user:aoopass123@52.221.216.110/50043db'
+    MONGO_URI = os.getenv("MONGO_URL", "mongodb://aoo-user:aoopass123@13.229.209.52:27017/50043db?authSource=admin")
+    SQLALCHEMY_DATABASE_URI = os.getenv("MYSQL_URL", 'mysql+pymysql://aoo-user:aoopass123@52.221.216.110/50043db')
     API_KEY = "AIzaSyA68wWrXPVtGdVy4APQRZGJTHE_mo8b_Pk"
 
 app_config = {
